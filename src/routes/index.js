@@ -10,7 +10,7 @@ const routes = [
       max: 100,
     },
     proxy: {
-      target: 'http://localhost:4000/api/v1/auth',
+      target: 'https://eventblown.onrender.com/api/v1/auth',
       changeOrigin: true,
       pathRewrite: {
         [`^/auth`]: '',
