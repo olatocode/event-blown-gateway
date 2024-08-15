@@ -1,23 +1,33 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
-const { routes } = require("./routes/index");
-const { setupProxies } = require('./utils/proxy');
-const { rateLimiter } = require('./middlewares/rateLimiter')
+/** @format */
 
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const { routes } = require('./routes/index');
+const { setupProxies } = require('./utils/proxy');
+const { rateLimiter } = require('./middlewares/rateLimiter');
 
 // Application
 const app = express();
 
-
-
 // Configuration
-require("dotenv").config();
+require('dotenv').config();
 
 // middleware
-app.use(cors());
-app.use(morgan("dev"));
-// app.use(rateLimiter);
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowHeaders: [
+      'content-type',
+      'Authorization',
+      'Access-control-Allow-Credentials',
+    ],
+  })
+);
+
+app.use(morgan('dev'));
 
 setupProxies(app, routes);
 rateLimiter(app, routes);
