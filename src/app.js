@@ -29,6 +29,10 @@ app.use(
 
 app.use(morgan('dev'));
 
+app.get('/', (req, res) => {
+  res.send('Event API Gateway');
+});
+
 setupProxies(app, routes);
 rateLimiter(app, routes);
 
